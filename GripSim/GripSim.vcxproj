@@ -135,11 +135,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
-    <ClInclude Include="tire.h" />
+    <ClInclude Include="Tire.h" />
+    <ClInclude Include="TireRenderer.h" />
+    <ClInclude Include="TireState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="tire.cpp" />
+    <ClCompile Include="Tire.cpp" />
+    <ClCompile Include="TireRenderer.cpp" />
+    <ClCompile Include="TireState.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

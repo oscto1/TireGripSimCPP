@@ -4,17 +4,20 @@
 class Tire
 {
 public:
-	Tire(float radius, float width);
+	Tire(float radius, float width, float pressure);
 
-	void setPosition(const sf::Vector2f& position);
-	void setLoad(float load);
-	void update();
-	void draw(sf::RenderWindow& window);
+	float radius;
+	float width;
+	float pressure;
+	//void setPosition(const sf::Vector2f& position);
 
-private:
-	float m_radius;
-	float m_load;
+//private:
+//	float m_radius;
+//	float m_width;
+//	float m_pressure;
 
-	sf::ConvexShape m_shape;
+	sf::ConvexShape frontShape;
+	sf::ConvexShape topShape;
+	sf::CircleShape sideShape;
 };
 
