@@ -7,7 +7,7 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode({ 800, 800 }), "Tire Grip Simulator");
 
-	Tire tire(80.f, 45.f, 21.f);
+	Tire tire(0.32f, 0.255f, 210000.f, {(float)window.getSize().x / 2,  (float)window.getSize().y / 2});
 	TireState state(tire);
 
 	float load = 1000.f;
@@ -31,11 +31,11 @@ int main()
 			angle += 0.03f;
 		}
 
-		state.calculateState(0.f, angle);
+		state.calculateState(0.f, angle, 4000);
 
 		
 
-		window.clear(sf::Color(30, 30, 30));
+		window.clear(sf::Color(30, 36, 40));
 		TireRenderer::drawTireTop(window, state);
 
 		window.display();

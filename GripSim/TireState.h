@@ -10,8 +10,8 @@ public:
 	float m_turnAngle;
 	Tire m_tire;
 
-	void calculateState(float velocity, float turnAngle);
+	void calculateState(float velocity, float turnAngle, float load);
 
-	void setTopView(float turnAngle);
+	void setTopView(float turnAngle, sf::Vector2f patchSize);
 };
 
