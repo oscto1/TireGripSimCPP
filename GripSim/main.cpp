@@ -31,7 +31,7 @@ int main()
 			angle += 0.03f;
 		}
 
-		state.calculateState(0.f, angle, 4000);
+		state.calculateState({0.f, 0.f}, angle, 7000);
 
 		
 
