@@ -1,7 +1,38 @@
 #include <SFML/Graphics.hpp>
+#include "main.h"
 #include "Tire.h"
 #include "TireState.h"
 #include "TireRenderer.h"
+
+void handleResize(sf::RenderWindow& window, unsigned width, unsigned height)
+{
+	float windowRatio = (float)width / height;
+	float viewRatio = 1.0f; // 800 / 800
+
+	float sizeX = 1.0f;
+	float sizeY = 1.0f;
+	float posX = 0.f;
+	float posY = 0.f;
+
+	bool horizontalSpacing = windowRatio > viewRatio;
+
+	if (horizontalSpacing)
+	{
+		sizeX = viewRatio / windowRatio;
+		posX = (1.f - sizeX) / 2.f;
+	}
+	else
+	{
+		sizeY = windowRatio / viewRatio;
+		posY = (1.f - sizeY) / 2.f;
+	}
+
+	sf::View view(sf::FloatRect({ 0.f, 0.f }, { 800.f, 800.f }));
+	view.setViewport(sf::FloatRect({ posX, posY }, { sizeX, sizeY }));
+
+	window.setView(view);
+}
+
 
 int main()
 {
@@ -21,6 +52,11 @@ int main()
 		{
 			if (event->is<sf::Event::Closed>())
 				window.close();
+
+			if (const auto* resized = event->getIf<sf::Event::Resized>())
+			{
+				handleResize(window, resized->size.x, resized->size.y);
+			}
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && turnAngle > -35)
@@ -44,9 +80,3 @@ int main()
 	}
 }
 
-void handleResize(sf::RenderWindow& window, unsigned width, unsigned height)
-{
-	float windowRatio = (float)width / height;
-	float viewRatio = 1.0f; // 800 / 800
-
-}
