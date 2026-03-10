@@ -4,7 +4,7 @@
 #include "TireShape.h"
 #include "Utils.h"
 
-Tire::Tire(float radius, float width, float pressure, sf::Vector2f position) : radius(radius), width(width), pressure(pressure), position(position), topShape({width * Utils::PIXELS_PER_METER, radius * Utils::PIXELS_PER_METER * 2}, 12.f, 8)
+Tire::Tire(float radius, float width, float pressure, float baseGrip, sf::Vector2f position) : radius(radius), width(width), pressure(pressure), position(position), baseGrip(baseGrip), topShape({width * Utils::PIXELS_PER_METER, radius * Utils::PIXELS_PER_METER * 2}, 12.f, 8)
 {
 	/*sf::Texture texture;
 	if (!texture.loadFromFile("img/corner.png", false, sf::IntRect({ 0, 0 }, { 12, 12 })))

@@ -5,11 +5,12 @@
 class Tire
 {
 public:
-	Tire(float radius, float width, float pressure, sf::Vector2f position);
+	Tire(float radius, float width, float pressure, float baseGrip, sf::Vector2f position);
 
 	float radius;
 	float width;
 	float pressure;
+	float baseGrip;
 
 	float patchEfficiency = 0.85f;
 

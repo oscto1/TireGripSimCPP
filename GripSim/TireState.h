@@ -11,16 +11,19 @@ public:
 	sf::Vector2f m_tireDirection;
 	float m_turnAngle = 0.f;
 	float m_slipAngle = 0.f;
+	float m_grip = 0.f;
 	
 
 
 	Tire m_tire;
 
-	void calculateState(sf::Vector2f velocityDir, float turnAngle, float load);
+	void calculateState(sf::Vector2f velocityDir, float turnAngle, float load, float gripScale, float speed);
 
 	void setTopView(float turnAngle, sf::Vector2f patchSize);
 
 private:
-	float calculateSlipAngle(sf::Vector2f m_velocityDir, float turnAngle);
+	float m_speedFactor = 0.05;
+
+	float calculateSlipAngle(float steerAngle, float speed, float gripScale);
 };
 
