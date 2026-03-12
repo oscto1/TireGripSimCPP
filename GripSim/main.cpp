@@ -3,6 +3,10 @@
 #include "Tire.h"
 #include "TireState.h"
 #include "TireRenderer.h"
+#include <imgui.h>
+#include <imgui-SFML.h>
+#include <imgui.h>
+#include <imgui-SFML.h>
 
 void handleResize(sf::RenderWindow& window, unsigned width, unsigned height)
 {
@@ -38,6 +42,10 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode({ 800, 800 }), "Tire Grip Simulator");
 
+	ImGui::SFML::Init(window);
+
+	sf::Clock deltaClock;
+
 	Tire tire(0.32f, 0.255f, 210000.f, 0.8f, {(float)window.getSize().x / 2,  (float)window.getSize().y / 2});
 	TireState state(tire);
 
@@ -46,10 +54,15 @@ int main()
 	float speed = 100.f;
 	float gripScale = 10;
 
+	auto size = window.getSize();
+	handleResize(window, size.x, size.y);
+
 	while (window.isOpen())
 	{
 		while (const std::optional event = window.pollEvent())
 		{
+			ImGui::SFML::ProcessEvent(window, *event);
+
 			if (event->is<sf::Event::Closed>())
 				window.close();
 
@@ -58,6 +71,12 @@ int main()
 				handleResize(window, resized->size.x, resized->size.y);
 			}
 		}
+		//ImGui::SFML::Update(window, deltaClock.restart());
+
+		ImGui::SFML::Update(window, deltaClock.restart());
+		ImGui::Begin("Test Window");
+		ImGui::Text("ImGui is working!");
+		ImGui::End();
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && turnAngle > -35)
 		{
@@ -74,9 +93,12 @@ int main()
 		
 
 		window.clear(sf::Color(30, 36, 40));
+		
 		TireRenderer::drawTireTop(window, state);
-
+		ImGui::SFML::Render(window);
 		window.display();
 	}
+
+	ImGui::SFML::Shutdown();
 }
 

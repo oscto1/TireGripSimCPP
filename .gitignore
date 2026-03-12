@@ -12,6 +12,7 @@ x64/Debug/
 x64/Release/
 Debug/
 Release/
+build/
 
 # Visual Studio cache files
 ipch/
