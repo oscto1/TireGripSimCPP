@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include "main.h"
 #include "Tire.h"
 #include "TireState.h"
 #include "TireRenderer.h"
@@ -8,35 +7,8 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
-void handleResize(sf::RenderWindow& window, unsigned width, unsigned height)
-{
-	float windowRatio = (float)width / height;
-	float viewRatio = 1.0f; // 800 / 800
-
-	float sizeX = 1.0f;
-	float sizeY = 1.0f;
-	float posX = 0.f;
-	float posY = 0.f;
-
-	bool horizontalSpacing = windowRatio > viewRatio;
-
-	if (horizontalSpacing)
-	{
-		sizeX = viewRatio / windowRatio;
-		posX = (1.f - sizeX) / 2.f;
-	}
-	else
-	{
-		sizeY = windowRatio / viewRatio;
-		posY = (1.f - sizeY) / 2.f;
-	}
-
-	sf::View view(sf::FloatRect({ 0.f, 0.f }, { 800.f, 800.f }));
-	view.setViewport(sf::FloatRect({ posX, posY }, { sizeX, sizeY }));
-
-	window.setView(view);
-}
-
+void handleResize(sf::RenderWindow& window, unsigned width, unsigned height);
+void drawUI(float &speed, float &load);
 
 int main()
 {
@@ -71,12 +43,10 @@ int main()
 				handleResize(window, resized->size.x, resized->size.y);
 			}
 		}
-		//ImGui::SFML::Update(window, deltaClock.restart());
 
 		ImGui::SFML::Update(window, deltaClock.restart());
-		ImGui::Begin("Test Window");
-		ImGui::Text("ImGui is working!");
-		ImGui::End();
+
+		
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && turnAngle > -35)
 		{
@@ -90,7 +60,7 @@ int main()
 
 		state.calculateState({0.f, 0.f}, turnAngle, load, gripScale, speed);
 
-		
+		drawUI(speed, load);
 
 		window.clear(sf::Color(30, 36, 40));
 		
@@ -102,3 +72,44 @@ int main()
 	ImGui::SFML::Shutdown();
 }
 
+
+void handleResize(sf::RenderWindow& window, unsigned width, unsigned height)
+{
+	float windowRatio = (float)width / height;
+	float viewRatio = 1.0f; // 800 / 800
+
+	float sizeX = 1.0f;
+	float sizeY = 1.0f;
+	float posX = 0.f;
+	float posY = 0.f;
+
+	bool horizontalSpacing = windowRatio > viewRatio;
+
+	if (horizontalSpacing)
+	{
+		sizeX = viewRatio / windowRatio;
+		posX = (1.f - sizeX) / 2.f;
+	}
+	else
+	{
+		sizeY = windowRatio / viewRatio;
+		posY = (1.f - sizeY) / 2.f;
+	}
+
+	sf::View view(sf::FloatRect({ 0.f, 0.f }, { 800.f, 800.f }));
+	view.setViewport(sf::FloatRect({ posX, posY }, { sizeX, sizeY }));
+
+	window.setView(view);
+}
+
+void drawUI(float &speed, float &load)
+{
+	ImGui::Begin("Controls");
+	ImGui::SliderFloat("Speed (m/s)", &speed, 0.f, 80.f);
+	ImGui::SliderFloat("Load (N)", &load, 4000.f, 9000.f);
+	ImGui::End();
+
+	ImGui::Begin("Unit System");
+	//ImGui::Checkbox()
+	ImGui::End();
+}
