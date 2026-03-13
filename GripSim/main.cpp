@@ -25,7 +25,7 @@ int main()
 
 	float load = 7000.f;
 	float turnAngle = 0.f;
-	float speed = 100.f;
+	float speed = 5.f;
 	float gripScale = 10;
 
 	auto size = window.getSize();
@@ -117,8 +117,34 @@ void handleResize(sf::RenderWindow& window, unsigned width, unsigned height)
 void drawUI(float &speed, float &load, Utils::UnitSystems &currentUnit)
 {
 	ImGui::Begin("Controls");
-	ImGui::SliderFloat("Speed (m/s)", &speed, 0.f, 80.f);
-	ImGui::SliderFloat("Load (N)", &load, 4000.f, 9000.f);
+	ImGui::PushItemWidth(110.0f);
+
+	if (currentUnit == Utils::UnitSystems::METRIC)
+	{
+		float speedKmH = speed * 3.6;
+		if (ImGui::SliderFloat("Speed (Km/h)", &speedKmH, 0.f, 306.f))
+		{
+			speed = speedKmH / 3.6;
+		};
+
+		ImGui::SliderFloat("Load (N)", &load, 4000.f, 9000.f);
+	}
+	else
+	{
+		float speedMH = speed * 2.23694f;
+		if (ImGui::SliderFloat("Speed (Mph)", &speedMH, 0.f, 190.14f))
+		{
+			speed = speedMH / 2.23694f;
+		};
+
+		float loadLbF = load * 0.2248089f;
+		if (ImGui::SliderFloat("Load (Lbf)", &loadLbF, 899.23f, 2023.28f))
+		{
+			load = loadLbF / 0.2248089f;
+		}
+	}
+
+	ImGui::PopItemWidth();
 	ImGui::End();
 
 	ImGui::Begin("Unit System");
