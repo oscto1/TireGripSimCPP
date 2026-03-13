@@ -4,11 +4,11 @@
 #include "TireRenderer.h"
 #include <imgui.h>
 #include <imgui-SFML.h>
-#include <imgui.h>
-#include <imgui-SFML.h>
+#include "Utils.h"
+#include <iostream>
 
 void handleResize(sf::RenderWindow& window, unsigned width, unsigned height);
-void drawUI(float &speed, float &load);
+void drawUI(float &speed, float &load, Utils::UnitSystems &currentUnit);
 
 int main()
 {
@@ -17,6 +17,8 @@ int main()
 	ImGui::SFML::Init(window);
 
 	sf::Clock deltaClock;
+
+	Utils::UnitSystems currentUnit = Utils::UnitSystems::METRIC;
 
 	Tire tire(0.32f, 0.255f, 210000.f, 0.8f, {(float)window.getSize().x / 2,  (float)window.getSize().y / 2});
 	TireState state(tire);
@@ -60,13 +62,23 @@ int main()
 
 		state.calculateState({0.f, 0.f}, turnAngle, load, gripScale, speed);
 
-		drawUI(speed, load);
+		drawUI(speed, load, currentUnit);
 
 		window.clear(sf::Color(30, 36, 40));
 		
 		TireRenderer::drawTireTop(window, state);
 		ImGui::SFML::Render(window);
 		window.display();
+
+		if (currentUnit == Utils::UnitSystems::METRIC)
+		{
+			std::cout << "Metric" << std::endl;
+		}	
+
+		if (currentUnit == Utils::UnitSystems::IMPERIAL)
+		{
+			std::cout << "Imperial" << std::endl;
+		}
 	}
 
 	ImGui::SFML::Shutdown();
@@ -102,7 +114,7 @@ void handleResize(sf::RenderWindow& window, unsigned width, unsigned height)
 	window.setView(view);
 }
 
-void drawUI(float &speed, float &load)
+void drawUI(float &speed, float &load, Utils::UnitSystems &currentUnit)
 {
 	ImGui::Begin("Controls");
 	ImGui::SliderFloat("Speed (m/s)", &speed, 0.f, 80.f);
@@ -110,6 +122,14 @@ void drawUI(float &speed, float &load)
 	ImGui::End();
 
 	ImGui::Begin("Unit System");
-	//ImGui::Checkbox()
+	if (ImGui::RadioButton("Metric", currentUnit == Utils::UnitSystems::METRIC))
+	{
+		currentUnit = Utils::UnitSystems::METRIC;
+	}
+
+	if (ImGui::RadioButton("Imperial", currentUnit == Utils::UnitSystems::IMPERIAL))
+	{
+		currentUnit = Utils::UnitSystems::IMPERIAL;
+	}
 	ImGui::End();
 }

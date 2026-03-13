@@ -17,4 +17,10 @@ public:
 		float angle = std::atan2(vector.y, vector.x) * 180 / 3.14159265f;
 		return angle + 90;
 	}
+
+	enum class UnitSystems
+	{
+		METRIC,
+		IMPERIAL
+	};
 };
