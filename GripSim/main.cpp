@@ -8,7 +8,7 @@
 #include <iostream>
 
 void handleResize(sf::RenderWindow& window, unsigned width, unsigned height);
-void drawUI(float &speed, float &load, Utils::UnitSystems &currentUnit);
+void drawUI(float &speed, float &load, float &width, Utils::UnitSystems &currentUnit);
 
 int main()
 {
@@ -20,9 +20,22 @@ int main()
 
 	Utils::UnitSystems currentUnit = Utils::UnitSystems::METRIC;
 
-	Tire tire(0.32f, 0.255f, 210000.f, 0.8f, {(float)window.getSize().x / 2,  (float)window.getSize().y / 2});
-	TireState state(tire);
+	//Tire data
+	//float radius = 0.32f;
+	//float width = 0.255f;
+	//float pressure = 210000.f;
+	TireData tireData;
+	tireData.radius = 0.32f;
+	tireData.width = 0.255f;
+	tireData.pressure = 210000.f;
+	tireData.baseGrip = 0.8f;
 
+	Tire tire(tireData, {(float)window.getSize().x / 2,  (float)window.getSize().y / 2});
+
+	
+
+	//Controls
+	TireState state(tire);
 	float load = 7000.f;
 	float turnAngle = 0.f;
 	float speed = 5.f;
@@ -62,23 +75,13 @@ int main()
 
 		state.calculateState({0.f, 0.f}, turnAngle, load, gripScale, speed);
 
-		drawUI(speed, load, currentUnit);
+		drawUI(speed, load, tireData.width, currentUnit);
 
 		window.clear(sf::Color(30, 36, 40));
 		
 		TireRenderer::drawTireTop(window, state);
 		ImGui::SFML::Render(window);
 		window.display();
-
-		if (currentUnit == Utils::UnitSystems::METRIC)
-		{
-			std::cout << "Metric" << std::endl;
-		}	
-
-		if (currentUnit == Utils::UnitSystems::IMPERIAL)
-		{
-			std::cout << "Imperial" << std::endl;
-		}
 	}
 
 	ImGui::SFML::Shutdown();
@@ -114,8 +117,15 @@ void handleResize(sf::RenderWindow& window, unsigned width, unsigned height)
 	window.setView(view);
 }
 
-void drawUI(float &speed, float &load, Utils::UnitSystems &currentUnit)
+void drawUI(float &speed, float &load, float &width, Utils::UnitSystems &currentUnit)
 {
+	ImGui::Begin("Tire");
+	ImGui::PushItemWidth(110.0f);
+	ImGui::SliderFloat("Width", &width, 0.155f, 0.305f);
+
+	ImGui::PopItemWidth();
+	ImGui::End();
+
 	ImGui::Begin("Controls");
 	ImGui::PushItemWidth(110.0f);
 

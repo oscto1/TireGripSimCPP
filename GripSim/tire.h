@@ -1,18 +1,19 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "TireShape.h"
+#include "TireData.h"
 
 class Tire
 {
 public:
-	Tire(float radius, float width, float pressure, float baseGrip, sf::Vector2f position);
+	Tire(TireData &data, sf::Vector2f position);
 
-	float radius;
-	float width;
-	float pressure;
-	float baseGrip;
-
-	float patchEfficiency = 0.85f;
+	TireData data;
+	//float radius;
+	//float width;
+	//float pressure;
+	//float baseGrip;
+	//float patchEfficiency = 0.85f;
 
 	sf::Vector2f position;
 

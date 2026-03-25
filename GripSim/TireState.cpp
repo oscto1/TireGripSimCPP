@@ -9,20 +9,21 @@ TireState::TireState(Tire& tire) : m_tire(tire)
 	m_carHeading = Utils::angleToVector(0.f);
 }
 
-void TireState::calculateState(sf::Vector2f, float turnAngle, float load, float gripScale, float speed)
+void TireState::calculateState(sf::Vector2f velocityDir, float turnAngle, float load, float gripScale, float speed)
 {
+	std::cout << m_tire.data.baseGrip << std::endl;
 	m_turnAngle = turnAngle;
 
 	m_tireDirection = Utils::angleToVector(m_turnAngle);
 
-	float patchArea = (load / m_tire.pressure) * m_tire.patchEfficiency;
-
-	float patchLength = patchArea / m_tire.width;
+	float patchArea = (load / m_tire.data.pressure) * m_tire.data.patchEfficiency;
+	
+	float patchLength = patchArea / m_tire.data.width;
 
 	m_slipAngle = calculateSlipAngle(turnAngle, speed, gripScale);
 	m_velocityDir = Utils::angleToVector( m_turnAngle - m_slipAngle );
 
-	setTopView(turnAngle, {m_tire.width * Utils::PIXELS_PER_METER, patchLength * Utils::PIXELS_PER_METER});
+	setTopView(turnAngle, {m_tire.data.width * Utils::PIXELS_PER_METER, patchLength * Utils::PIXELS_PER_METER});
 }
 
 void TireState::setTopView(float turnAngle, sf::Vector2f patchSize)
