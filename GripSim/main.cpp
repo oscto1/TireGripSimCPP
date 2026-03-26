@@ -8,7 +8,7 @@
 #include <iostream>
 
 void handleResize(sf::RenderWindow& window, unsigned width, unsigned height);
-void drawUI(float &speed, float &load, float &width, Utils::UnitSystems &currentUnit);
+void drawUI(float &speed, float &load, TireState& tireState, Utils::UnitSystems &currentUnit);
 
 int main()
 {
@@ -75,7 +75,7 @@ int main()
 
 		state.calculateState({0.f, 0.f}, turnAngle, load, gripScale, speed);
 
-		drawUI(speed, load, tireData.width, currentUnit);
+		drawUI(speed, load, state, currentUnit);
 
 		window.clear(sf::Color(30, 36, 40));
 		
@@ -117,11 +117,20 @@ void handleResize(sf::RenderWindow& window, unsigned width, unsigned height)
 	window.setView(view);
 }
 
-void drawUI(float &speed, float &load, float &width, Utils::UnitSystems &currentUnit)
+void drawUI(float &speed, float &load, TireState &tireState, Utils::UnitSystems &currentUnit)
 {
 	ImGui::Begin("Tire");
 	ImGui::PushItemWidth(110.0f);
-	ImGui::SliderFloat("Width", &width, 0.155f, 0.305f);
+	if (ImGui::SliderFloat("Width", &tireState.m_tire.data.width, 0.155f, 0.305f))
+	{
+		tireState.m_tire.topShape.updateTireShape({ tireState.m_tire.data.width * Utils::PIXELS_PER_METER, tireState.m_tire.data.radius * Utils::PIXELS_PER_METER * 2 });
+	}
+
+	if(ImGui::SliderFloat("Radius", &tireState.m_tire.data.radius, 0.28f, 0.4f))
+	{
+		tireState.m_tire.topShape.updateTireShape({ tireState.m_tire.data.width * Utils::PIXELS_PER_METER, tireState.m_tire.data.radius * Utils::PIXELS_PER_METER * 2 });
+	}
+	ImGui::SliderFloat("Pressure", &tireState.m_tire.data.pressure, 100000.f, 260000.f);
 
 	ImGui::PopItemWidth();
 	ImGui::End();

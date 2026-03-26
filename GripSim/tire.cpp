@@ -11,7 +11,6 @@ Tire::Tire(TireData &data, sf::Vector2f position) : data(data), position(positio
 	{
 		std::cout << "Error loading the image" << "\n";
 	}*/
-	std::cout << "Position " << position.x << " " << position.y << "\n";
 
 	topShape.setOrigin({data.width * Utils::PIXELS_PER_METER / 2, data.radius  * Utils::PIXELS_PER_METER });
 	topShape.setPosition(position);

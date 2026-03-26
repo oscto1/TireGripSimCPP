@@ -11,7 +11,7 @@ TireState::TireState(Tire& tire) : m_tire(tire)
 
 void TireState::calculateState(sf::Vector2f velocityDir, float turnAngle, float load, float gripScale, float speed)
 {
-	std::cout << m_tire.data.baseGrip << std::endl;
+	//std::cout << m_tire.data.radius << std::endl;
 	m_turnAngle = turnAngle;
 
 	m_tireDirection = Utils::angleToVector(m_turnAngle);

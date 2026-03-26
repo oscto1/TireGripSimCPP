@@ -8,6 +8,7 @@
 
 void TireRenderer::drawTireTop(sf::RenderWindow& window, const TireState& state)
 {
+	//std::cout << state.m_tire.topShape.size().x << " " << state.m_tire.topShape.size().y << std::endl;
 	window.draw(state.m_tire.topShape);
 	window.draw(state.m_tire.contactPatch);
 	//std::cout << state.m_tire.position.x << " " << state.m_tire.position.y << std::endl;
@@ -30,7 +31,7 @@ void TireRenderer::drawVector(sf::RenderWindow& window, sf::Vector2f origin, sf:
 	line.setFillColor(color);
 	line.setOrigin({ stroke / 2, length });
 	line.setPosition(origin);
-	line.setRotation(sf::degrees(Utils::vectorToAngle(direction )));
+	line.setRotation(sf::degrees(Utils::vectorToAngle(direction)));
 
 	window.draw(line);
 }

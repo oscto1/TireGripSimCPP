@@ -1,5 +1,6 @@
 #include "TireShape.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 TireShape::TireShape(sf::Vector2f size, float cornerRadius, int borderPoints) : m_size(size), m_cornerRadius(cornerRadius), m_cornerPointCount(borderPoints)
 {
@@ -47,4 +48,16 @@ sf::Vector2f TireShape::getPoint(std::size_t index) const
 		center.x + std::cos(rad) * m_cornerRadius,
 		center.y + std::sin(rad) * m_cornerRadius
 	};
+}
+
+void TireShape::updateTireShape(sf::Vector2f size)
+{
+	m_size = size;
+	this->setOrigin({m_size.x / 2, m_size.y / 2});
+	update();
+}
+
+sf::Vector2f TireShape::size() const
+{
+	return m_size;
 }

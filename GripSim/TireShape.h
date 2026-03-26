@@ -15,7 +15,9 @@ public:
 
 	sf::Vector2f getPoint(std::size_t index) const override;
 
+	void updateTireShape(sf::Vector2f size);
 	//void setCornerPointCount(std::size_t count);
+	sf::Vector2f size() const;
 
 };
 
